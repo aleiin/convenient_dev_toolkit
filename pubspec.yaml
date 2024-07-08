@@ -1,7 +1,7 @@
 name: convenient_dev_toolkit
 description: 便捷工具包
 version: 0.0.1
-homepage:
+homepage: https://github.com/aleiin/convenient_dev_toolkit
 
 environment:
   sdk: ">=2.16.1 <4.0.0"

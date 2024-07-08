@@ -1,9 +1,8 @@
 # convenient_dev_toolkit
 
-快捷开发工具包
+便捷开发工具包
 
 ## 使用方法
-
 
 ### 安装依赖
 
@@ -14,7 +13,6 @@ dependencies:
   # 添加依赖
   convenient_dev_toolkit: ^{latest version}
 ```
-
 
 #### 货币格式化
 
