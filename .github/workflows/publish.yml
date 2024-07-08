@@ -20,28 +20,55 @@
 #          skipTests: true
 #          force: true
 
-# .github/workflows/publish.yml
-name: Publish to pub.dev
+## .github/workflows/publish.yml
+#name: Publish to pub.dev
+#
+#on:
+#  push:
+#    tags:
+#      - 'v[0-9]+.[0-9]+.[0-9]+*' # tag pattern on pub.dev: 'v{{version}'
+#
+## Publish using custom workflow
+#jobs:
+#  publish:
+#    permissions:
+#      id-token: write # Required for authentication using OIDC
+#    runs-on: macos-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: dart-lang/setup-dart@v1
+#        with:
+#          sdk: 2.16
+#
+#      - name: Install dependencies
+#        run: dart pub get
+#
+#      - name: Publish
+#        run: dart pub publish --force
+
+name: Dart
 
 on:
   push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*' # tag pattern on pub.dev: 'v{{version}'
+    branches: [main]
+  pull_request:
+    branches: [main]
 
-# Publish using custom workflow
 jobs:
-  publish:
-    permissions:
-      id-token: write # Required for authentication using OIDC
-    runs-on: macos-latest
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        sdk: [3.1, stable, beta]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
         with:
-          sdk: 2.16
+          sdk: ${{ matrix.sdk }}
 
       - name: Install dependencies
         run: dart pub get
 
-      - name: Publish
-        run: dart pub publish --force
+      - name: Run tests
+        run: dart test
