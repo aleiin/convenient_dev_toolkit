@@ -286,4 +286,8 @@ extension StringEx on String {
   String toKeepSymbol() {
     return replaceAll(RegExp(r'[^a-zA-Z]'), '').toUpperCase();
   }
+
+  void toPrint() {
+    print('print 15:31: $this');
+  }
 }
