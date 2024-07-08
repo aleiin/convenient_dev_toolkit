@@ -1,46 +1,22 @@
-#name: Publish to Pub.dev
-#
-## 推送代码直接自动打包
-#on: push
-#
-#jobs:
-#  publishing:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: 'Checkout'
-#        uses: actions/checkout@main # required!
-#
-#      - name: '>> Dart package <<'
-#        uses: k-paxian/dart-package-publisher@master
-#        with:
-#          accessToken: ${{ secrets.OAUTH_ACCESS_TOKEN }}
-#          refreshToken: ${{ secrets.OAUTH_REFRESH_TOKEN }}
-#          suppressBuildRunner: true
-#          flutter: true
-#          skipTests: true
-#          force: true
+name: Publish to Pub.dev
 
-# .github/workflows/publish.yml
-name: Publish to pub.dev
+# 推送代码直接自动打包
+on: push
 
-on:
-  push:
-    branches: [main]
-
-# Publish using custom workflow
 jobs:
-  publish:
-    permissions:
-      id-token: write # Required for authentication using OIDC
+  publishing:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: dart-lang/setup-dart@v1
+      - name: 'Checkout'
+        uses: actions/checkout@main # required!
+
+      - name: '>> Dart package <<'
+        uses: k-paxian/dart-package-publisher@master
         with:
-          sdk: 2.16.1
+          accessToken: ${{ secrets.OAUTH_ACCESS_TOKEN }}
+          refreshToken: ${{ secrets.OAUTH_REFRESH_TOKEN }}
+          suppressBuildRunner: true
+          flutter: true
+          skipTests: true
+          force: true
 
-#      - name: Install dependencies
-#        run: dart pub get
-
-      - name: Publish
-        run: dart pub publish --force
