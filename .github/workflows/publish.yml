@@ -41,7 +41,7 @@ jobs:
           sdk: 2.16
 
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
 
       - name: Publish
         run: dart pub publish --force
