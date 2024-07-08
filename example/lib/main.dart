@@ -1,4 +1,5 @@
 import 'package:convenient_dev_toolkit/convenient_dev_toolkit.dart';
+import 'package:example/input/phone_input_test.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -32,21 +33,56 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '12345678'.toCurrencyFormatter(),
+    return CustomWidget(
+      titleLabel: 'debug',
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                getItemView(
+                  label: '测试',
+                  children: [
+                    ElevatedButton(
+                      child: const Text('电话号码输入框测试'),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return const PhoneInputTest();
+                        }));
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget getItemView({
+    String? label,
+    List<Widget> children = const <Widget>[],
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label ?? '',
+            style: const TextStyle(fontSize: 20),
+          ),
+          Wrap(
+            spacing: 10,
+            children: children,
+          ),
+        ],
+      ),
     );
   }
 }
