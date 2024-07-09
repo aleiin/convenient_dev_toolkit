@@ -16,3 +16,7 @@
 ## 0.0.4
 
 * 移除CustomWidget
+
+## 0.0.5
+
+* 添加tab_Indicator
