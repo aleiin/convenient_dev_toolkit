@@ -1,4 +1,5 @@
-import 'package:convenient_dev_toolkit/convenient_dev_toolkit.dart';
+import 'package:example/currency_test.dart';
+import 'package:example/custom_widget.dart';
 import 'package:example/input/phone_input_test.dart';
 import 'package:flutter/material.dart';
 
@@ -51,6 +52,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
                           return const PhoneInputTest();
+                        }));
+                      },
+                    ),
+                    ElevatedButton(
+                      child: const Text('币种精度测试'),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return const CurrencyTest();
                         }));
                       },
                     ),
