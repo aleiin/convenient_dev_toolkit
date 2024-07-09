@@ -127,7 +127,7 @@ class _CurrencyTestState extends State<CurrencyTest> {
               ),
               Flexible(
                 child: Text(
-                  label.toUSDTPrice(),
+                  label.toUSDTPrice(isCurrencyFormatter: true),
                 ),
               ),
             ],
@@ -152,6 +152,7 @@ class _CurrencyTestState extends State<CurrencyTest> {
                 child: Text(
                   label.toCurrencyFormatFractionDigits(
                     isRemoveEndZero: true,
+                    isCurrencyFormatter: true,
                   ),
                 ),
               ),

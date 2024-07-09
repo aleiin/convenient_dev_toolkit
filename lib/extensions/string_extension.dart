@@ -176,7 +176,7 @@ extension StringEx on String {
     bool isRemoveEndZero = true,
 
     /// 是否启用货币格式化
-    bool isCurrencyFormatter = false,
+    bool isCurrencyFormatter = true,
   }) {
     /// 是否有加号
     bool isAddition = false;
@@ -226,7 +226,9 @@ extension StringEx on String {
   /// 价格 <= 0: 0.00
   /// 0 < 价格 < 1 : 保留小数后8位: 0.00390000 或 0.00000002
   /// 价格 > 1 : 保留两位小数: 10.92 或 9.80 或 1.00
-  String toUSDTPrice() {
+  String toUSDTPrice({
+    bool isCurrencyFormatter = true,
+  }) {
     /// 是否有加号
     bool isAddition = false;
 
@@ -245,9 +247,10 @@ extension StringEx on String {
         if (parse.toDouble() == 0.0) {
           return '0.00';
         } else {
-          final String result = parse
-              .toString()
-              .toCurrencyFormatFractionDigits(fractionDigits: 8);
+          final String result = parse.toString().toCurrencyFormatFractionDigits(
+                fractionDigits: 8,
+                isCurrencyFormatter: isCurrencyFormatter,
+              );
 
           final Decimal? resultParse = Decimal.tryParse(result);
 
@@ -270,12 +273,16 @@ extension StringEx on String {
       } else {
         /// 是否有加号
         if (isAddition) {
-          return '+${parse.toString().toCurrencyFormatFractionDigits(fractionDigits: 2)}';
+          return '+${parse.toString().toCurrencyFormatFractionDigits(
+                fractionDigits: 2,
+                isCurrencyFormatter: isCurrencyFormatter,
+              )}';
         }
 
-        return parse
-            .toString()
-            .toCurrencyFormatFractionDigits(fractionDigits: 2);
+        return parse.toString().toCurrencyFormatFractionDigits(
+              fractionDigits: 2,
+              isCurrencyFormatter: isCurrencyFormatter,
+            );
       }
     } else {
       return this;
@@ -285,9 +292,5 @@ extension StringEx on String {
   /// 保留字母
   String toKeepSymbol() {
     return replaceAll(RegExp(r'[^a-zA-Z]'), '').toUpperCase();
-  }
-
-  void toPrint() {
-    print('print 15:31: $this');
   }
 }
