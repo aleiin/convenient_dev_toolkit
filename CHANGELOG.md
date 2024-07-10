@@ -33,3 +33,7 @@
 
 * 更新文档
 
+## 0.0.9
+
+* 重构string_extension类中的toUSDTPrice()方法
+

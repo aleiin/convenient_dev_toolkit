@@ -173,6 +173,8 @@ extension StringEx on String {
   /// isCurrencyFormatter: 是否启用货币格式化
   String toCurrencyFormatFractionDigits({
     int fractionDigits = 8,
+
+    /// 是否删除末尾的0
     bool isRemoveEndZero = true,
 
     /// 是否启用货币格式化
@@ -227,6 +229,10 @@ extension StringEx on String {
   /// 0 < 价格 < 1 : 保留小数后8位: 0.00390000 或 0.00000002
   /// 价格 > 1 : 保留两位小数: 10.92 或 9.80 或 1.00
   String toUSDTPrice({
+    /// 是否删除末尾的0
+    bool isRemoveEndZero = false,
+
+    /// 是否启用货币格式化
     bool isCurrencyFormatter = true,
   }) {
     /// 是否有加号
@@ -239,54 +245,49 @@ extension StringEx on String {
     /// 结果
     String result = this;
 
-    final Decimal? parse = Decimal.tryParse(this);
+    /// 第一次解析
+    final Decimal? firstParse = Decimal.tryParse(this);
 
-    if (parse != null) {
-      if (parse.toDouble() < 1.0) {
+    if (firstParse != null) {
+      if (firstParse.toDouble() < 1.0) {
         /// 保留有效位之后的位数
-        if (parse.toDouble() == 0.0) {
-          return '0.00';
+        if (firstParse.toDouble() == 0.0) {
+          result = '0.00';
         } else {
-          final String result = parse.toString().toCurrencyFormatFractionDigits(
-                fractionDigits: 8,
-                isCurrencyFormatter: isCurrencyFormatter,
-              );
+          final String firstParseStr =
+              firstParse.toString().toCurrencyFormatFractionDigits(
+                    fractionDigits: 8,
+                    isRemoveEndZero: isRemoveEndZero,
+                    isCurrencyFormatter: isCurrencyFormatter,
+                  );
 
-          final Decimal? resultParse = Decimal.tryParse(result);
+          /// 第二次解析
+          final Decimal? secondParse = Decimal.tryParse(firstParseStr);
 
-          if (resultParse != null) {
+          if (secondParse != null) {
             /// 如果四舍五入完还是0.00000000, 那还是返回0.00
-            if (resultParse.toDouble() == 0.0) {
-              return '0.00';
+            if (secondParse.toDouble() == 0.0) {
+              result = '0.00';
             } else {
-              /// 是否有加号
-              if (isAddition) {
-                return '+$result';
-              }
-
-              return result;
+              result = firstParseStr;
             }
-          } else {
-            return this;
           }
         }
       } else {
-        /// 是否有加号
-        if (isAddition) {
-          return '+${parse.toString().toCurrencyFormatFractionDigits(
-                fractionDigits: 2,
-                isCurrencyFormatter: isCurrencyFormatter,
-              )}';
-        }
-
-        return parse.toString().toCurrencyFormatFractionDigits(
+        result = firstParse.toString().toCurrencyFormatFractionDigits(
               fractionDigits: 2,
+              isRemoveEndZero: isRemoveEndZero,
               isCurrencyFormatter: isCurrencyFormatter,
             );
       }
-    } else {
-      return this;
     }
+
+    /// 是否有加号
+    if (isAddition) {
+      result = '+$result';
+    }
+
+    return result;
   }
 
   /// 保留字母
