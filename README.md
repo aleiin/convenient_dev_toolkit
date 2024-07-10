@@ -1,5 +1,7 @@
 # convenient_dev_toolkit
 
+[![pub package](https://img.shields.io/pub/v/convenient_dev_toolkit)](https://pub.dev/packages/convenient_dev_toolkit)
+
 便捷开发工具包
 
 ## 使用方法
@@ -19,3 +21,4 @@ dependencies:
 ```dart
 '12345678'.toCurrencyFormatter() // 12,345,678
 ```
+

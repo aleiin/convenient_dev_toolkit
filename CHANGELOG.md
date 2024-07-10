@@ -29,3 +29,7 @@
 
 * 修改StringEx扩展类中toCurrencyFormatFractionDigits方法,将isCurrencyFormatter属性默认值设为true
 
+## 0.0.8
+
+* 更新文档
+
