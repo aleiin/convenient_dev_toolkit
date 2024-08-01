@@ -171,6 +171,7 @@ extension StringEx on String {
   /// 处理货币格式化和保留小数点后几位
   /// isRemoveEndZero: 是否删除末尾的0, 假设保留8位小数, 现有小数: 0.123450, isRemoveEndZero为true的情况下, 则格式化为: 0.12345, 如果为false,则格式化为0.12345000
   /// isCurrencyFormatter: 是否启用货币格式化
+  /// isRounding: 是否四舍五入, demo: isRounding: true, 现有小数: 0.123456, 保留四位小数, 则为0.1235; isRounding: false, 现有小数: 0.123456, 保留四位小数, 则为0.1234
   String toCurrencyFormatFractionDigits({
     int fractionDigits = 8,
 
@@ -179,7 +180,15 @@ extension StringEx on String {
 
     /// 是否启用货币格式化
     bool isCurrencyFormatter = true,
+
+    /// 是否四舍五入
+    bool isRounding = true,
   }) {
+    /// 如果格式化的位数小于0, 则直接返回
+    if (fractionDigits < 0) {
+      return this;
+    }
+
     /// 是否有加号
     bool isAddition = false;
 
@@ -194,8 +203,16 @@ extension StringEx on String {
     final Decimal? parse = Decimal.tryParse(this);
 
     if (parse != null) {
-      /// 保留多少位小数, 四舍五入
-      final String strAsFixed = parse.toStringAsFixed(fractionDigits);
+      String strAsFixed = '0';
+
+      /// 是否四舍五入
+      if (isRounding) {
+        /// 保留多少位小数, 四舍五入
+        strAsFixed = parse.toStringAsFixed(fractionDigits);
+      } else {
+        /// 不会四舍五入,直接截掉
+        strAsFixed = parse.truncate(scale: fractionDigits).toString();
+      }
 
       /// 是否删除末尾的0
       /// 123.00100=123.001

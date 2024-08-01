@@ -1,12 +1,12 @@
 library convenient_dev_toolkit;
 
 /// String扩展包
-export 'extensions/string_extension.dart';
+export 'src/extensions/string_extension.dart';
 
 /// 工具包
-export 'utils/currency_input_formatter_util.dart';
-export 'utils/integer_input_formatter_util.dart';
-export 'utils/phone_input_formatter_util.dart';
+export 'src/utils/currency_input_formatter_util.dart';
+export 'src/utils/integer_input_formatter_util.dart';
+export 'src/utils/phone_input_formatter_util.dart';
 
 ///
-export 'widget/tab_Indicator.dart';
+export 'src/widget/tab_Indicator.dart';

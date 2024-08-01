@@ -37,3 +37,8 @@
 
 * 重构string_extension类中的toUSDTPrice()方法
 
+## 0.1.0
+
+* 给toCurrencyFormatFractionDigits方法中添加isRounding(是否四舍五入)参数, 并添加小数位小于0的校验
+* 修改文件夹结构
+
