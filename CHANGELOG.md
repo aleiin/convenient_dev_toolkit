@@ -1,3 +1,7 @@
+## 0.2.2
+
+* 修改tab_Indicator.dart名字为tab_indicator.dart
+
 ## 0.2.1
 
 * 重构CurrencyTextInputFormatter
