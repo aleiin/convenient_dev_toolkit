@@ -1,3 +1,8 @@
+## 0.2.1
+
+* 重构CurrencyTextInputFormatter
+* 添加CurrencyTextInputFormatter demo
+
 ## 0.2.0
 
 * 将flutter版本升级到3.16.9

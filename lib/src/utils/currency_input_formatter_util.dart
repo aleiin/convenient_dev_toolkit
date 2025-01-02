@@ -9,16 +9,6 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
   /// 小数点之后的精度
   final int? mantissaLength;
 
-  static const defaultDouble = 0.000001;
-
-  static double strToFloat(String str, [double defaultValue = defaultDouble]) {
-    try {
-      return double.parse(str);
-    } catch (e) {
-      return defaultValue;
-    }
-  }
-
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
@@ -90,22 +80,6 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
         value = '0';
         selectionIndex = value.length;
       }
-    } else if (value != "" &&
-        value.startsWith("-0") &&
-        value.length > 2 &&
-        value.substring(2, 3) != '.') {
-      value = "${value.substring(0, 2)}.${value.substring(2)}";
-      selectionIndex++;
-    } else if (value == "-") {
-      value = "-";
-    } else if (value.isNotEmpty &&
-        value != defaultDouble.toString() &&
-        strToFloat(value, defaultDouble) == defaultDouble) {
-      value = oldValue.text;
-      selectionIndex = oldValue.selection.end;
-    } else if (value != "" && value.contains(" ")) {
-      value = oldValue.text.trim();
-      selectionIndex = oldValue.selection.end;
     }
 
     if (value.contains('.') && mantissaLength != null) {
