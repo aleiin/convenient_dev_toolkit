@@ -30,7 +30,7 @@ class _PhoneInputTestState extends State<PhoneInputTest> {
               inputFormatters: [
                 PhoneTextInputFormatter(
                   maxLength: 7,
-                  masks: ['####@####', '####-####'],
+                  masks: ['####@####', '####-#####'],
                   // masks: ['## ### ####'],
                   // masks: ['(###) ### ####'],
                   // masks: [
@@ -53,7 +53,7 @@ class _PhoneInputTestState extends State<PhoneInputTest> {
               ],
               controller: controller,
               decoration: const InputDecoration(
-                hintText: '####@####' ',' '####-####',
+                hintText: '####@####' ',' '####-#####',
               ),
               onChanged: (value) {
                 setState(() {});
