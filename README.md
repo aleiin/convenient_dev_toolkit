@@ -22,3 +22,18 @@ dependencies:
 '12345678'.toCurrencyFormatter() // 12,345,678
 ```
 
+#### 有界数字输入框
+
+限制0到100区间范围内输入
+
+使用方法
+
+```dart
+TextField(
+  inputFormatters: [
+    BoundedNumberFormatter(min: 0, max: 100),
+  ],
+  controller: controller,
+  decoration: const InputDecoration(hintText: '0-100'),
+ ),
+```

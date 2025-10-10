@@ -1,3 +1,7 @@
+## 0.2.3
+
+* 添加有界数字输入框工具类BoundedNumberFormatter
+
 ## 0.2.2
 
 * 修改tab_Indicator.dart名字为tab_indicator.dart

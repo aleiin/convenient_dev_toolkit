@@ -4,6 +4,7 @@ library convenient_dev_toolkit;
 export 'src/extensions/string_extension.dart';
 
 /// 工具包
+export 'src/utils/bounded_number_formatter_util.dart';
 export 'src/utils/currency_input_formatter_util.dart';
 export 'src/utils/integer_input_formatter_util.dart';
 export 'src/utils/phone_input_formatter_util.dart';

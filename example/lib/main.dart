@@ -1,5 +1,6 @@
 import 'package:example/currency_test.dart';
 import 'package:example/custom_widget.dart';
+import 'package:example/input/bounded_input_test.dart';
 import 'package:example/input/currency_input_test.dart';
 import 'package:example/input/phone_input_test.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 getItemView(
                   label: '测试',
                   children: [
+                    ElevatedButton(
+                      child: const Text('有界数字输入框测试'),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return const BoundedInputTest();
+                        }));
+                      },
+                    ),
                     ElevatedButton(
                       child: const Text('电话号码输入框测试'),
                       onPressed: () {
