@@ -31,32 +31,6 @@ class _CurrencyTestState extends State<CurrencyTest> {
     '+1234567.0000000014',
   ];
 
-  List<String> token = [
-    '123.12345678',
-    '12345678.12345678',
-    '12345678.123456789',
-    '1234.56789',
-    '0.0039',
-    '123.00100',
-    '123',
-    '-12345678.123456789',
-    '+12345678.123456789',
-    '1e-8',
-    '-1e-8',
-    '+1e-8',
-    '0',
-    '123',
-    '1234',
-    '+123',
-    '+1234',
-    '123.00000',
-    '1234.00000',
-    '1234.00000001',
-    '1234.000000012',
-    '1234.0000000123',
-    '1234.0000000456',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return CustomWidget(
@@ -90,21 +64,6 @@ class _CurrencyTestState extends State<CurrencyTest> {
                     label: price[index],
                   ),
                 ),
-                const SizedBox(height: 20),
-                const Text(
-                  'token',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.red,
-                  ),
-                ),
-                ...List.generate(
-                  token.length,
-                  (index) => getToken(
-                    index: 't${index + 1}',
-                    label: token[index],
-                  ),
-                ),
               ],
             ),
           ),
@@ -128,33 +87,7 @@ class _CurrencyTestState extends State<CurrencyTest> {
               ),
               Flexible(
                 child: Text(
-                  label.toUSDTPrice(isCurrencyFormatter: true),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget getToken({String index = '0', String label = ''}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(index),
-        const SizedBox(width: 20),
-        Flexible(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(child: Text(label)),
-              Flexible(
-                child: Text(
-                  label.toCurrencyFormatFractionDigits(
-                    isRemoveEndZero: true,
-                    isCurrencyFormatter: true,
-                  ),
+                  label.toCurrencyFormatter(),
                 ),
               ),
             ],
