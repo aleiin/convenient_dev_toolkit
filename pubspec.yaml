@@ -1,9 +1,9 @@
 name: convenient_dev_toolkit
 description: 便捷工具包
-version: 0.2.3
+version: 0.3.0
 homepage: https://github.com/aleiin/convenient_dev_toolkit
 
-# flutter版本: 3.16.9
+# flutter版本: 3.24.9
 environment:
   sdk: ">=3.2.6 <4.0.0"
 

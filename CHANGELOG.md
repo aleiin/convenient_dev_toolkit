@@ -1,3 +1,8 @@
+## 0.3.0
+
+* 删除toCurrencyFormatFractionDigits方法和toUSDTPrice方法
+* 重构toCurrencyFormatter方法
+
 ## 0.2.3
 
 * 添加有界数字输入框工具类BoundedNumberFormatter
@@ -59,22 +64,3 @@
 ## 0.0.1
 
 * 第一个版本
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
