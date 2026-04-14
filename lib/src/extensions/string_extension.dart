@@ -56,20 +56,45 @@ extension StringEx on String {
     return result;
   }
 
+  /// 是否是科学计数法
+  bool isScientificNotation() {
+    final trimmed = trim();
+
+    final RegExp scientificRegex = RegExp(
+      r'^[+\-]?\d*\.?\d+[eE][+\-]?\d+$',
+      caseSensitive: false,
+    );
+
+    return scientificRegex.hasMatch(trimmed);
+  }
+
   /// 货币格式化
   String toCurrencyFormatter({String delimiter = ','}) {
+    String trimmed = trim();
+
     /// 去除两边的空格
-    if (trim().isEmpty) {
+    if (trimmed.isEmpty) {
       return this;
+    }
+
+    /// 是否包含科学计数法
+    if (isScientificNotation()) {
+      final Decimal? parse = Decimal.tryParse(trimmed);
+
+      if (parse != null) {
+        trimmed = parse.toString();
+      } else {
+        return this;
+      }
     }
 
     /// 1. 判断是否合法：可选 +/-/空格 + 任意非数字前缀 + 数字（可含小数点）
     /// 前缀部分：允许除了数字、点、逗号以外的字符（包括货币符号、中文、日文等）
     final RegExp validRegex = RegExp(
-      r'^[+\-\s]*[^0-9+\-.\s]*[0-9]+(?:\.[0-9]+)?$',
+      r'^[+\-\s]*[^0-9+\-]*[0-9]+(?:\.[0-9]+)?$',
     );
 
-    if (!validRegex.hasMatch(trim())) {
+    if (!validRegex.hasMatch(trimmed)) {
       /// 防止1996.66.66
       return this;
     }
@@ -77,8 +102,8 @@ extension StringEx on String {
     /// 2. 分离「前缀」和「纯数字部分」
     /// 前缀 = 开头的非数字部分（包括符号、空格）
     /// 数字部分 = 剩下的数字 + 可选小数
-    final match = RegExp(r'^([+\-\s]*[^0-9+\-.\s]*)([0-9]+(?:\.[0-9]+)?)$')
-        .firstMatch(trim());
+    final match = RegExp(r'^([+\-\s]*[^0-9+\-]*)([0-9]+(?:\.[0-9]+)?)$')
+        .firstMatch(trimmed);
 
     if (match == null) {
       return this;
@@ -118,95 +143,5 @@ extension StringEx on String {
         integerStr.replaceAll(RegExp(r'(?!^)(?=(\d{3})+$)'), delimiter);
 
     return prefix + integerStr + decimalStr;
-
-    /// 字符串
-    String str = '';
-
-    /// 是否有负号
-    bool isNegative = false;
-
-    /// 是否有加号
-    bool isAddition = false;
-
-    if (length > 1) {
-      isNegative = substring(0, 1).contains('-');
-      isAddition = substring(0, 1).contains('+');
-    }
-
-    final Decimal? parse = Decimal.tryParse(this);
-
-    if (parse != null) {
-      /// 干掉除小数之外的字符
-      str = replaceAll(RegExp(r'[^.\d]'), '');
-
-      /// 小数点的数量
-      int decimalPointCount = RegExp(r"\.").allMatches(str).length;
-
-      /// 大于1个小数点的直接返回, 不做格式化
-      if (decimalPointCount > 1) {
-        return this;
-      }
-
-      /// 如果有一个小数点
-      if (decimalPointCount == 1) {
-        decimalIndex = str.indexOf('.');
-
-        integerStr = str.substring(0, decimalIndex);
-        decimalStr = str.substring(decimalIndex, str.length);
-      } else {
-        integerStr = str;
-      }
-
-      /// 判断是否是0开头
-      if (integerStr.length > 1 && integerStr.startsWith('0')) {
-        integerStr = integerStr.replaceFirst("0", '');
-      }
-
-      /// 格式化
-      integerStr =
-          integerStr.replaceAll(RegExp(r'(?!^)(?=(\d{3})+$)'), delimiter);
-
-      /// **************************************************
-      /// 有小数
-      /// **************************************************
-
-      /// 必须是.x格式才可拼接
-      if (decimalStr.length > 1) {
-        /// 有负号, 拼接负号
-        if (isNegative) {
-          return '-$integerStr$decimalStr';
-        }
-
-        /// 前面有加号, 拼接加号
-        if (isAddition) {
-          return '+$integerStr$decimalStr';
-        }
-
-        return integerStr + decimalStr;
-      }
-
-      /// **************************************************
-      /// 没有小数
-      /// **************************************************
-
-      /// 有负号, 拼接负号
-      if (isNegative) {
-        return '-$integerStr';
-      }
-
-      /// 前面有加号, 拼接加号
-      if (isAddition) {
-        return '+$integerStr';
-      }
-
-      return integerStr;
-    } else {
-      return this;
-    }
-  }
-
-  /// 保留字母
-  String toKeepSymbol() {
-    return replaceAll(RegExp(r'[^a-zA-Z]'), '').toUpperCase();
   }
 }
