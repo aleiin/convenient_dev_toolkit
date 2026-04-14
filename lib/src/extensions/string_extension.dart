@@ -58,8 +58,40 @@ extension StringEx on String {
 
   /// 货币格式化
   String toCurrencyFormatter({String delimiter = ','}) {
-    /// 字符串
-    String str = '';
+    /// 去除两边的空格
+    if (trim().isEmpty) {
+      return this;
+    }
+
+    /// 1. 判断是否合法：可选 +/-/空格 + 任意非数字前缀 + 数字（可含小数点）
+    /// 前缀部分：允许除了数字、点、逗号以外的字符（包括货币符号、中文、日文等）
+    final RegExp validRegex = RegExp(
+      r'^[+\-\s]*[^0-9+\-.\s]*[0-9]+(?:\.[0-9]+)?$',
+    );
+
+    if (!validRegex.hasMatch(trim())) {
+      /// 防止1996.66.66
+      return this;
+    }
+
+    /// 2. 分离「前缀」和「纯数字部分」
+    /// 前缀 = 开头的非数字部分（包括符号、空格）
+    /// 数字部分 = 剩下的数字 + 可选小数
+    final match = RegExp(r'^([+\-\s]*[^0-9+\-.\s]*)([0-9]+(?:\.[0-9]+)?)$')
+        .firstMatch(trim());
+
+    if (match == null) {
+      return this;
+    }
+
+    /// 前缀（可能含货币符号、-B/.、空格等）
+    final String prefix = match.group(1) ?? '';
+
+    /// 纯数字字符串，如 "1996.66"
+    final String numberStr = match.group(2) ?? '';
+
+    /// 小数点的位置
+    int decimalIndex = numberStr.indexOf('.');
 
     /// 小数部分
     String decimalStr = '';
@@ -67,8 +99,28 @@ extension StringEx on String {
     /// 整数部分
     String integerStr = '';
 
-    /// 小数点位置
-    int decimalIndex = 0;
+    if (decimalIndex == -1) {
+      /// 没有小数点
+      integerStr = numberStr;
+    } else {
+      /// 有小数点
+      integerStr = numberStr.substring(0, decimalIndex);
+      decimalStr = numberStr.substring(decimalIndex, numberStr.length);
+    }
+
+    /// 判断是否是0开头
+    if (integerStr.length > 1 && integerStr.startsWith('0')) {
+      integerStr = integerStr.replaceFirst("0", '');
+    }
+
+    /// 格式化
+    integerStr =
+        integerStr.replaceAll(RegExp(r'(?!^)(?=(\d{3})+$)'), delimiter);
+
+    return prefix + integerStr + decimalStr;
+
+    /// 字符串
+    String str = '';
 
     /// 是否有负号
     bool isNegative = false;
